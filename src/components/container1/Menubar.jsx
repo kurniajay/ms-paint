@@ -4,7 +4,6 @@ import FileMenu from "./FileMenu";
 import EditMenu from "./EditMenu";
 import ViewMenu from "./ViewMenu";
 import LayerMenu from "./LayerMenu";
-import ImageMenu from "./ImageMenu";
 import ColorMenu from "./ColorMenu";
 //import HelpMenu from "./HelpMenu";
 
@@ -97,22 +96,6 @@ class Menubar extends React.Component {
             clearFooter={this.props.clearFooter}
           />
         );
-      case "image":
-        return (
-          <ImageMenu
-            setFooter={this.props.setFooter}
-            clearFooter={this.props.clearFooter}
-            onFlipHorizontal={this.props.onFlipHorizontal}
-            onFlipVertical={this.props.onFlipVertical}
-            onRotate={this.props.onRotate}
-            onInvertColors={this.props.onInvertColors}
-            onClearImage={this.props.onClearImage}
-            onResize={this.props.onResize}
-            canvasWidth={this.props.canvasWidth}
-            canvasHeight={this.props.canvasHeight}
-            closeMenu={this.closeMenu}
-          />
-        );
       case "colors":
         return (
           <ColorMenu
@@ -137,7 +120,6 @@ class Menubar extends React.Component {
             <button onClick={() => this.setActiveMenu("file")}>File</button>
             <button onClick={() => this.setActiveMenu("edit")}>Edit</button>
             <button onClick={() => this.setActiveMenu("view")}>View</button>
-            <button onClick={() => this.setActiveMenu("image")}>Image</button>
             <button onClick={() => this.setActiveMenu("colors")}>Colors</button>
           </div>
 

@@ -8,10 +8,6 @@ class EditMenu extends React.Component {
       Undo: "Undoes the last action",
       Redo: "Redoes the last undone action",
       Clear_Image: "Clears the entire canvas",
-      Cut: "Cuts the selection and puts on clipboard",
-      Copy: "Copies the selection to clipboard",
-      Paste: "Pastes content from clipboard",
-      Select_All: "Selects the entire canvas",
     };
   }
 
@@ -45,7 +41,7 @@ class EditMenu extends React.Component {
 
   render() {
     return (
-      <div className="dropdown" id="edit_toggle" style={{ width: "180px", left: "26px" }}>
+      <div className="dropdown" id="edit_toggle" style={{ width: "180px" }}>
         <table className="toggle-content" style={{ width: "180px" }}>
           <tbody>
             {/* UNDO */}
@@ -59,6 +55,10 @@ class EditMenu extends React.Component {
               <td className="tickspace"></td>
               <td className="menu-item-label">Undo</td>
               <td className="menu-item-shortcut">Ctrl+Z</td>
+            </tr>
+
+            <tr className="div-line">
+              <td colSpan="3"><hr className="menuhr" /></td>
             </tr>
 
             {/* REDO */}
@@ -78,46 +78,6 @@ class EditMenu extends React.Component {
               <td colSpan="3"><hr className="menuhr" /></td>
             </tr>
 
-            {/* CUT - disabled for now */}
-            <tr
-              className="menu-row disabled"
-              id="Cut"
-              onMouseEnter={this.handleEnter}
-              onMouseLeave={this.handleLeave}
-            >
-              <td className="tickspace"></td>
-              <td className="menu-item-label" style={{ color: "#888" }}>Cut</td>
-              <td className="menu-item-shortcut">Ctrl+X</td>
-            </tr>
-
-            {/* COPY - disabled for now */}
-            <tr
-              className="menu-row disabled"
-              id="Copy"
-              onMouseEnter={this.handleEnter}
-              onMouseLeave={this.handleLeave}
-            >
-              <td className="tickspace"></td>
-              <td className="menu-item-label" style={{ color: "#888" }}>Copy</td>
-              <td className="menu-item-shortcut">Ctrl+C</td>
-            </tr>
-
-            {/* PASTE - disabled for now */}
-            <tr
-              className="menu-row disabled"
-              id="Paste"
-              onMouseEnter={this.handleEnter}
-              onMouseLeave={this.handleLeave}
-            >
-              <td className="tickspace"></td>
-              <td className="menu-item-label" style={{ color: "#888" }}>Paste</td>
-              <td className="menu-item-shortcut">Ctrl+V</td>
-            </tr>
-
-            <tr className="div-line">
-              <td colSpan="3"><hr className="menuhr" /></td>
-            </tr>
-
             {/* CLEAR IMAGE */}
             <tr
               className="menu-row"
@@ -129,18 +89,6 @@ class EditMenu extends React.Component {
               <td className="tickspace"></td>
               <td className="menu-item-label">Clear Image</td>
               <td className="menu-item-shortcut"></td>
-            </tr>
-
-            {/* SELECT ALL - disabled for now */}
-            <tr
-              className="menu-row disabled"
-              id="Select_All"
-              onMouseEnter={this.handleEnter}
-              onMouseLeave={this.handleLeave}
-            >
-              <td className="tickspace"></td>
-              <td className="menu-item-label" style={{ color: "#888" }}>Select All</td>
-              <td className="menu-item-shortcut">Ctrl+A</td>
             </tr>
           </tbody>
         </table>

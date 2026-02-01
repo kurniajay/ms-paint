@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   BrushOptions,
   EllipseOptions,
@@ -6,7 +6,7 @@ import {
   LineOptions,
   MagnificationOptions,
   RectShapeOptions,
-} from "./ToolOptions.jsx";
+} from './ToolOptions.jsx';
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class Sidebar extends React.Component {
       startMouse: { x: 0, y: 0 },
       startPos: { x: 0, y: 0 },
       position: { x: 0, y: 0 },
-      currTool: "PENCIL",
+      currTool: 'PENCIL',
       holdTimeout: null,
     };
 
@@ -32,36 +32,35 @@ class Sidebar extends React.Component {
     };
 
     this.TOOL_SELECTED_KEY = {
-      PENCIL: "size",
-      BRUSH: "size",
-      ERASER: "size",
-      LINE: "size",
-      RECT: "type",
-      ELLIPSE: "type",
-      MAGNIFY: "zoom",
+      PENCIL: 'size',
+      BRUSH: 'size',
+      ERASER: 'size',
+      LINE: 'size',
+      RECT: 'type',
+      ELLIPSE: 'type',
+      MAGNIFY: 'zoom',
     };
 
     this.TOOLS = [
-      { id: "eraser", tool: "ERASER" },
-      { id: "floodfill", tool: "FLOOD" },
-      { id: "magnification", tool: "MAGNIFY" },
-      { id: "pencil", tool: "PENCIL" },
-      { id: "brush", tool: "BRUSH" },
-      { id: "line", tool: "LINE" },
-      { id: "rectshape", tool: "RECT" },
-      { id: "ellipse", tool: "ELLIPSE" },
+      { id: 'eraser', tool: 'ERASER' },
+      { id: 'floodfill', tool: 'FLOOD' },
+      { id: 'magnification', tool: 'MAGNIFY' },
+      { id: 'pencil', tool: 'PENCIL' },
+      { id: 'brush', tool: 'BRUSH' },
+      { id: 'line', tool: 'LINE' },
+      { id: 'rectshape', tool: 'RECT' },
+      { id: 'ellipse', tool: 'ELLIPSE' },
     ];
 
     this.Toolsfootnote = {
-      eraser:
-        "Erases a portion of the picture, using the selected eraser shape.",
-      floodfill: "Fills an area with the selected drawing color",
-      magnification: "Changes the magnification",
-      pencil: "Draws a free-form one pixel wide",
-      brush: "Draws using a brush with the selected shape and size",
-      line: "Draws a straight line with the selected line width",
-      rectshape: "Draws a rectangle with the selected fill style",
-      ellipse: "Draws an ellipse with the selected fill style",
+      eraser: 'Erases part of the drawing using the selected eraser size.',
+      floodfill: 'Fills a closed area with the current drawing color.',
+      magnification: 'Zooms in or out to change the canvas magnification.',
+      pencil: 'Draws freehand lines one pixel wide.',
+      brush: 'Draws freehand lines with the selected brush size.',
+      line: 'Draws straight lines with the selected line width.',
+      rectshape: 'Draws rectangles with border or filled style.',
+      ellipse: 'Draws circles and ellipses with border or filled style.',
     };
 
     this.sidebarRef = React.createRef();
@@ -75,23 +74,23 @@ class Sidebar extends React.Component {
   };
 
   handleLeave = () => {
-    this.props.setFooter("For Help, click Help Topics on the Help Menu");
+    this.props.setFooter('Select a tool from the toolbox');
   };
 
   componentDidMount() {
-    window.addEventListener("mousemove", this.onDrag);
-    window.addEventListener("mouseup", this.stopDrag);
+    window.addEventListener('mousemove', this.onDrag);
+    window.addEventListener('mouseup', this.stopDrag);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("mousemove", this.onDrag);
-    window.removeEventListener("mouseup", this.stopDrag);
+    window.removeEventListener('mousemove', this.onDrag);
+    window.removeEventListener('mouseup', this.stopDrag);
     clearTimeout(this.state.holdTimeout);
   }
 
   startHoldToDetach = (e) => {
     clearTimeout(this.state.holdTimeout);
-    if (e.target.closest(".toolbar")) return;
+    if (e.target.closest('.toolbar')) return;
 
     const holdTimeout = setTimeout(() => {
       this.setState({ floating: true, dragging: true });
@@ -124,7 +123,7 @@ class Sidebar extends React.Component {
   };
 
   render() {
-    const currTool = this.props.tool || "PENCIL";
+    const currTool = this.props.tool || 'PENCIL';
     const OptionPanel = this.TOOL_OPTIONS[currTool];
     const cfg = this.props.currConfig || {};
     const key = this.TOOL_SELECTED_KEY[currTool];
@@ -149,16 +148,16 @@ class Sidebar extends React.Component {
     return (
       <div
         ref={this.sidebarRef}
-        className={this.state.floating ? "sidebar floating" : "sidebar"}
+        className={this.state.floating ? 'sidebar floating' : 'sidebar'}
         style={{
-          position: this.state.floating ? "absolute" : "relative",
+          position: this.state.floating ? 'absolute' : 'relative',
           left: this.state.floating ? this.state.position.x : 0,
           top: this.state.floating ? this.state.position.y : 0,
           cursor: this.state.floating
             ? this.state.dragging
-              ? "grabbing"
-              : "grab"
-            : "default",
+              ? 'grabbing'
+              : 'grab'
+            : 'default',
         }}
         onMouseDown={this.startHoldToDetach}
       >
@@ -167,7 +166,7 @@ class Sidebar extends React.Component {
             <button
               key={id}
               id={id}
-              className={`tools ${currTool === tool ? "pressed" : ""}`}
+              className={`tools ${currTool === tool ? 'pressed' : ''}`}
               onMouseEnter={this.handleEnter}
               onMouseLeave={this.handleLeave}
               onClick={() => {

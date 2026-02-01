@@ -4,17 +4,10 @@ class ViewMenu extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showZoomSubmenu: false,
-      showBitmapView: false,
-    };
-
     this.Viewfootnote = {
       Tool_Box: "Shows or hides the tool box",
       Color_Box: "Shows or hides the color box",
       Status_Bar: "Shows or hides the status bar",
-      Zoom: "Changes the zoom level",
-      View_Bitmap: "Displays the entire picture",
       FullScreen: "Makes the application full screen",
     };
   }
@@ -47,29 +40,6 @@ class ViewMenu extends React.Component {
     this.props.closeMenu?.();
   };
 
-  handleZoomHover = () => {
-    this.setState({ showZoomSubmenu: true });
-  };
-
-  handleZoomLeave = () => {
-    this.setState({ showZoomSubmenu: false });
-  };
-
-  handleZoom = (level) => {
-    this.props.onZoom?.(level);
-    this.setState({ showZoomSubmenu: false });
-    this.props.closeMenu?.();
-  };
-
-  handleViewBitmap = () => {
-    this.setState({ showBitmapView: true });
-  };
-
-  closeBitmapView = () => {
-    this.setState({ showBitmapView: false });
-    this.props.closeMenu?.();
-  };
-
   handleFullScreen = () => {
     if (document.fullscreenElement) {
       document.exitFullscreen();
@@ -80,12 +50,10 @@ class ViewMenu extends React.Component {
   };
 
   render() {
-    const { showZoomSubmenu, showBitmapView } = this.state;
-    const { showToolBox, showColorBox, showStatusBar, zoomLevel } = this.props;
+    const { showToolBox, showColorBox, showStatusBar } = this.props;
 
     return (
-      <>
-        <div className="dropdown" id="view_toggle" style={{ width: "180px", left: "60px" }}>
+        <div className="dropdown" id="view_toggle" style={{ width: "180px" }}>
           <table className="toggle-content" style={{ width: "180px" }}>
             <tbody>
               {/* TOOL BOX */}
@@ -98,7 +66,11 @@ class ViewMenu extends React.Component {
               >
                 <td className="tickspace">{showToolBox ? "✓" : ""}</td>
                 <td className="menu-item-label">Tool Box</td>
-                <td className="menu-item-shortcut">Ctrl+T</td>
+                <td className="menu-item-shortcut"></td>
+              </tr>
+
+              <tr className="div-line">
+                <td colSpan="3"><hr className="menuhr" /></td>
               </tr>
 
               {/* COLOR BOX */}
@@ -111,7 +83,11 @@ class ViewMenu extends React.Component {
               >
                 <td className="tickspace">{showColorBox ? "✓" : ""}</td>
                 <td className="menu-item-label">Color Box</td>
-                <td className="menu-item-shortcut">Ctrl+L</td>
+                <td className="menu-item-shortcut"></td>
+              </tr>
+
+              <tr className="div-line">
+                <td colSpan="3"><hr className="menuhr" /></td>
               </tr>
 
               {/* STATUS BAR */}
@@ -131,60 +107,6 @@ class ViewMenu extends React.Component {
                 <td colSpan="3"><hr className="menuhr" /></td>
               </tr>
 
-              {/* ZOOM */}
-              <tr
-                className="menu-row"
-                id="Zoom"
-                onMouseEnter={(e) => { this.handleEnter(e); this.handleZoomHover(); }}
-                onMouseLeave={(e) => { this.handleLeave(); this.handleZoomLeave(); }}
-              >
-                <td className="tickspace"></td>
-                <td className="menu-item-label">Zoom</td>
-                <td className="menu-item-shortcut">▶</td>
-              </tr>
-
-              {/* Zoom Submenu */}
-              {showZoomSubmenu && (
-                <tr>
-                  <td colSpan="3">
-                    <div className="zoom-submenu">
-                      <div className="zoom-option" onClick={() => this.handleZoom(0.25)}>
-                        {zoomLevel === 0.25 && "✓"} 25%
-                      </div>
-                      <div className="zoom-option" onClick={() => this.handleZoom(0.5)}>
-                        {zoomLevel === 0.5 && "✓"} 50%
-                      </div>
-                      <div className="zoom-option" onClick={() => this.handleZoom(1)}>
-                        {zoomLevel === 1 && "✓"} 100%
-                      </div>
-                      <div className="zoom-option" onClick={() => this.handleZoom(2)}>
-                        {zoomLevel === 2 && "✓"} 200%
-                      </div>
-                      <div className="zoom-option" onClick={() => this.handleZoom(4)}>
-                        {zoomLevel === 4 && "✓"} 400%
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              )}
-
-              <tr className="div-line">
-                <td colSpan="3"><hr className="menuhr" /></td>
-              </tr>
-
-              {/* VIEW BITMAP */}
-              <tr
-                className="menu-row"
-                id="View_Bitmap"
-                onMouseEnter={this.handleEnter}
-                onMouseLeave={this.handleLeave}
-                onClick={this.handleViewBitmap}
-              >
-                <td className="tickspace"></td>
-                <td className="menu-item-label">View Bitmap</td>
-                <td className="menu-item-shortcut">Ctrl+F</td>
-              </tr>
-
               {/* FULL SCREEN */}
               <tr
                 className="menu-row"
@@ -200,22 +122,6 @@ class ViewMenu extends React.Component {
             </tbody>
           </table>
         </div>
-
-        {/* VIEW BITMAP MODAL */}
-        {showBitmapView && (
-          <div 
-            className="bitmap-overlay" 
-            onClick={this.closeBitmapView}
-            title="Click anywhere to close"
-          >
-            <img 
-              src={this.props.getImageData?.()} 
-              alt="Canvas Preview"
-              className="bitmap-preview"
-            />
-          </div>
-        )}
-      </>
     );
   }
 }

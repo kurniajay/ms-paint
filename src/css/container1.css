@@ -56,7 +56,6 @@
 #edit_toggle,
 #view_toggle,
 #layer_toggle,
-#image_toggle,
 #colors_toggle {
   background-color: var(--main-color);
   position: absolute;
@@ -68,6 +67,11 @@
   border-right: 1px solid var(--borderdark);
   border-bottom: 1px solid var(--borderdark);
 }
+
+#file_toggle {
+  left: 1px;
+}
+
 .dropdown {
   display: flex;
 }
@@ -85,36 +89,34 @@
   border: none;
 }
 
-/* Specific styles for #edit-toggle */
+/* Specific styles for each menu */
 #edit_toggle {
-  width: 192px;
-  height: 200px;
-  left: 31px;
+  width: 180px;
+  left: 34px;
 }
 
 #view_toggle {
   width: 150px;
-  height: 156px;
-  left: 60px;
-}
-
-#image_toggle {
-  width: 165px;
-  height: 114px;
-  left: 137px;
+  left: 69px;
 }
 
 #colors_toggle {
   width: 130px;
-  height: 60px;
-  left: 130px;
+  left: 108px;
 }
-#layer_toggle {
-  left: 95px;
-}
+
 /* Common styles for hr on hover */
 hr:hover {
   background-color: var(--main-color);
+}
+
+.menu-row {
+  height: 20px;
+}
+
+.menu-row td {
+  padding: 1clpx 0;
+  white-space: nowrap;
 }
 
 .menu-row:hover td {
@@ -315,44 +317,6 @@ hr:hover {
 
 /* ==================== VIEW MENU STYLES ==================== */
 
-.zoom-submenu {
-  background: var(--main-color);
-  border: 1px solid #888;
-  margin-left: 20px;
-  padding: 2px;
-}
-
-.zoom-option {
-  padding: 3px 20px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.zoom-option:hover {
-  background: rgb(12, 12, 99);
-  color: white;
-}
-
-.bitmap-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  cursor: pointer;
-}
-
-.bitmap-preview {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
 /* ==================== WINDOWS 95 DIALOG STYLES ==================== */
 
 .win95-dialog {
@@ -420,6 +384,13 @@ hr:hover {
   border-color: #808080 #dfdfdf #dfdfdf #808080;
 }
 
+.win95-input {
+  width: 100%;
+  padding: 4px 6px;
+  border: 2px inset #888;
+  font-size: 12px;
+}
+
 /* ==================== EDIT COLORS DIALOG ==================== */
 
 .color-dialog-main {
@@ -482,6 +453,30 @@ hr:hover {
   border-left: 1px solid #808080;
   padding-left: 15px;
   display: flex;
+  gap: 15px;
+}
+
+.color-picker-area {
+  display: flex;
+  gap: 10px;
+}
+
+.gradient-canvas {
+  border: 2px solid;
+  border-color: #808080 #dfdfdf #dfdfdf #808080;
+  cursor: crosshair;
+  image-rendering: pixelated;
+}
+
+.brightness-canvas {
+  border: 2px solid;
+  border-color: #808080 #dfdfdf #dfdfdf #808080;
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+
+.color-info-section {
+  display: flex;
   flex-direction: column;
   gap: 10px;
 }
@@ -499,27 +494,36 @@ hr:hover {
   border-color: #808080 #dfdfdf #dfdfdf #808080;
 }
 
-.rgb-inputs {
+.color-inputs {
+  display: flex;
+  gap: 15px;
+}
+
+.input-group {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.rgb-row {
+.input-row {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 11px;
 }
 
-.rgb-row label {
+.input-row label {
   width: 40px;
 }
 
-.rgb-row input {
-  width: 50px;
+.input-row input {
+  width: 45px;
   padding: 2px 4px;
   border: 2px solid;
   border-color: #808080 #dfdfdf #dfdfdf #808080;
   font-size: 11px;
+}
+
+.add-custom-btn {
+  margin-top: auto;
 }

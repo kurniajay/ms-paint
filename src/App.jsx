@@ -4,6 +4,7 @@ import Sidebar from "./components/container2/Sidebar";
 import Canvas from "./components/container2/Canvas";
 import Pallete from "./components/container3/Pallete";
 import Footer from "./components/container4/Footer";
+// Dialogs reuse existing modal styles; inline rendering below
 
 // API base URL
 const API_URL = "http://localhost:5000/api";
@@ -19,6 +20,7 @@ class App extends React.Component {
 
     this.footerRef = React.createRef();
     this.canvasRef = React.createRef();
+    this.dialogInputRef = React.createRef();
 
     this.state = {
       mode: AppMode.DRAW,
@@ -39,7 +41,6 @@ class App extends React.Component {
       showToolBox: true,
       showColorBox: true,
       showStatusBar: true,
-      zoomLevel: 1,
     };
   }
 
@@ -53,27 +54,11 @@ class App extends React.Component {
   }
 
   handleKeyDown = (e) => {
-    const { ctrlKey, shiftKey, key } = e;
+    const { ctrlKey, key } = e;
 
-    // Ctrl + key shortcuts
+    // Only Undo/Redo shortcuts
     if (ctrlKey) {
       switch (key.toLowerCase()) {
-        case "n": // New
-          e.preventDefault();
-          this.handleNew();
-          break;
-        case "o": // Open (show open dialog would need state, just prevent default)
-          e.preventDefault();
-          // Open is handled via modal in FileMenu
-          break;
-        case "s": // Save / Save As
-          e.preventDefault();
-          if (shiftKey) {
-            this.handleSaveAs();
-          } else {
-            this.handleSave();
-          }
-          break;
         case "z": // Undo
           e.preventDefault();
           this.handleUndo();
@@ -82,42 +67,18 @@ class App extends React.Component {
           e.preventDefault();
           this.handleRedo();
           break;
-        case "e": // Attributes (resize)
-          e.preventDefault();
-          // Would need to open modal - skip for now
-          break;
-        case "i": // Invert Colors
-          e.preventDefault();
-          this.handleInvertColors();
-          break;
-        case "t": // Toggle Tool Box
-          e.preventDefault();
-          this.handleToggleToolBox();
-          break;
-        case "l": // Toggle Color Box
-          e.preventDefault();
-          this.handleToggleColorBox();
-          break;
         default:
           break;
       }
     }
 
-    // Function key shortcuts
+    // F11 - Fullscreen
     if (key === "F11") {
       e.preventDefault();
       if (document.fullscreenElement) {
         document.exitFullscreen();
       } else {
         document.documentElement.requestFullscreen();
-      }
-    }
-
-    // Delete key - clear canvas
-    if (key === "Delete") {
-      // Only if not typing in an input
-      if (e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
-        this.handleClearImage();
       }
     }
   };
@@ -161,14 +122,23 @@ class App extends React.Component {
 
   // NEW - Clear canvas
   handleNew = () => {
+    // replaced browser confirm with themed dialog
     if (this.state.hasUnsavedChanges) {
-      const confirm = window.confirm("Create new drawing? Unsaved changes will be lost.");
-      if (!confirm) return;
+      return this.showDialog("confirm", "Create new drawing? Unsaved changes will be lost.")
+        .then((ok) => {
+          if (!ok) return;
+          this.canvasRef.current?.clearCanvas();
+          this.setState({
+            currentDrawingId: null,
+            currentDrawingTitle: "Untitled",
+            hasUnsavedChanges: false,
+          });
+        });
     }
-    
+
     // Clear canvas
     this.canvasRef.current?.clearCanvas();
-    
+
     // Reset state
     this.setState({
       currentDrawingId: null,
@@ -195,10 +165,10 @@ class App extends React.Component {
         });
         if (response.ok) {
           this.setState({ hasUnsavedChanges: false });
-          alert("Drawing saved!");
+          await this.showDialog("alert", "Drawing saved!");
         }
       } catch (error) {
-        alert("Error saving: " + error.message);
+        await this.showDialog("alert", "Error saving: " + error.message);
       }
     } else {
       // First time save - ask for title
@@ -211,7 +181,7 @@ class App extends React.Component {
     const imageData = this.canvasRef.current?.getImageData();
     if (!imageData) return;
 
-    const title = prompt("Enter drawing title:", this.state.currentDrawingTitle);
+    const title = await this.showDialog("prompt", "Enter drawing title:", this.state.currentDrawingTitle);
     if (!title) return;
 
     try {
@@ -233,18 +203,18 @@ class App extends React.Component {
           currentDrawingTitle: saved.title,
           hasUnsavedChanges: false,
         });
-        alert("Drawing saved!");
+        await this.showDialog("alert", "Drawing saved!");
       }
     } catch (error) {
-      alert("Error saving: " + error.message);
+      await this.showDialog("alert", "Error saving: " + error.message);
     }
   };
 
   // OPEN - Load from database
   handleOpen = async (drawingId) => {
     if (this.state.hasUnsavedChanges) {
-      const confirm = window.confirm("Open another drawing? Unsaved changes will be lost.");
-      if (!confirm) return;
+      const ok = await this.showDialog("confirm", "Open another drawing? Unsaved changes will be lost.");
+      if (!ok) return;
     }
 
     try {
@@ -281,22 +251,22 @@ class App extends React.Component {
 
   // DELETE - Remove from database
   handleDelete = async (drawingId) => {
-    const confirm = window.confirm("Are you sure you want to delete this drawing?");
-    if (!confirm) return;
+    const ok = await this.showDialog("confirm", "Are you sure you want to delete this drawing?");
+    if (!ok) return;
 
     try {
       const response = await fetch(`${API_URL}/drawings/${drawingId}`, {
         method: "DELETE",
       });
       if (response.ok) {
-        alert("Drawing deleted!");
+        await this.showDialog("alert", "Drawing deleted!");
         // If deleted current drawing, reset
         if (drawingId === this.state.currentDrawingId) {
           this.handleNew();
         }
       }
     } catch (error) {
-      alert("Error deleting: " + error.message);
+      await this.showDialog("alert", "Error deleting: " + error.message);
     }
   };
 
@@ -335,37 +305,25 @@ class App extends React.Component {
 
   // Clear entire image
   handleClearImage = () => {
-    const confirm = window.confirm("Clear the entire image?");
-    if (confirm) {
-      this.canvasRef.current?.clearCanvas();
-    }
+    this.showDialog("confirm", "Clear the entire image?").then((ok) => {
+      if (ok) this.canvasRef.current?.clearCanvas();
+    });
   };
 
-  // ==================== IMAGE OPERATIONS ====================
-
-  // Flip horizontal
-  handleFlipHorizontal = () => {
-    this.canvasRef.current?.flipHorizontal();
+  // Show a themed dialog and return a Promise
+  showDialog = (type, message, defaultValue = "") => {
+    return new Promise((resolve) => {
+      this.setState({
+        dialog: { open: true, type, message, defaultValue, resolve },
+      });
+    });
   };
 
-  // Flip vertical
-  handleFlipVertical = () => {
-    this.canvasRef.current?.flipVertical();
-  };
-
-  // Rotate by degrees
-  handleRotate = (degrees) => {
-    this.canvasRef.current?.rotate(degrees);
-  };
-
-  // Invert colors
-  handleInvertColors = () => {
-    this.canvasRef.current?.invertColors();
-  };
-
-  // Resize canvas
-  handleResize = (width, height) => {
-    this.canvasRef.current?.resizeCanvas(width, height);
+  // Close dialog helper
+  closeDialog = (result) => {
+    const dlg = this.state.dialog;
+    if (dlg?.resolve) dlg.resolve(result);
+    this.setState({ dialog: null });
   };
 
   // ==================== VIEW OPERATIONS ====================
@@ -385,18 +343,8 @@ class App extends React.Component {
     this.setState((prev) => ({ showStatusBar: !prev.showStatusBar }));
   };
 
-  // Set zoom level
-  handleZoom = (level) => {
-    this.setState({ zoomLevel: level });
-  };
-
-  // Get canvas image for View Bitmap
-  getCanvasImageData = () => {
-    return this.canvasRef.current?.getImageData();
-  };
-
   render() {
-    const { showToolBox, showColorBox, showStatusBar, zoomLevel } = this.state;
+    const { showToolBox, showColorBox, showStatusBar } = this.state;
 
     return (
       <>
@@ -413,22 +361,12 @@ class App extends React.Component {
           onUndo={this.handleUndo}
           onRedo={this.handleRedo}
           onClearImage={this.handleClearImage}
-          onFlipHorizontal={this.handleFlipHorizontal}
-          onFlipVertical={this.handleFlipVertical}
-          onRotate={this.handleRotate}
-          onInvertColors={this.handleInvertColors}
-          onResize={this.handleResize}
-          canvasWidth={this.canvasRef.current?.getWidth?.() || 800}
-          canvasHeight={this.canvasRef.current?.getHeight?.() || 500}
           onToggleToolBox={this.handleToggleToolBox}
           onToggleColorBox={this.handleToggleColorBox}
           onToggleStatusBar={this.handleToggleStatusBar}
-          onZoom={this.handleZoom}
           showToolBox={showToolBox}
           showColorBox={showColorBox}
           showStatusBar={showStatusBar}
-          zoomLevel={zoomLevel}
-          getImageData={this.getCanvasImageData}
           onColorSelect={this.handleColorSelect}
         />
 
@@ -453,7 +391,6 @@ class App extends React.Component {
             tool={this.state.currTool}
             color={this.state.currColor}
             toolConfig={this.state.toolConfig}
-            zoomLevel={zoomLevel}
             onColorPick={this.setColor}
           />
 
@@ -463,6 +400,39 @@ class App extends React.Component {
         {showColorBox && <Pallete setColor={this.setColor} />}
 
         {showStatusBar && <Footer ref={this.footerRef} />}
+
+        {/* Themed dialog overlay - reuse existing .modal styles */}
+        {this.state.dialog && (
+          <div className="modal-overlay" onClick={() => this.closeDialog(false)}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <h3>{this.state.dialog.type === "prompt" ? "Enter value" : "Message"}</h3>
+              <p>{this.state.dialog.message}</p>
+              {this.state.dialog.type === "prompt" && (
+                <input
+                  ref={this.dialogInputRef}
+                  defaultValue={this.state.dialog.defaultValue || ""}
+                  className="win95-input"
+                />
+              )}
+              <div className="modal-buttons">
+                <button
+                  onClick={() => {
+                    if (this.state.dialog.type === "prompt") {
+                      this.closeDialog(this.dialogInputRef.current?.value ?? "");
+                    } else {
+                      this.closeDialog(true);
+                    }
+                  }}
+                >
+                  OK
+                </button>
+                {this.state.dialog.type !== "alert" && (
+                  <button onClick={() => this.closeDialog(false)}>Cancel</button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </>
     );
   }

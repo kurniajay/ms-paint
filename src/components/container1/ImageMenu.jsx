@@ -92,7 +92,7 @@ class ImageMenu extends React.Component {
 
     return (
       <>
-        <div className="dropdown" id="image_toggle" style={{ width: "180px", left: "143px" }}>
+        <div className="dropdown" id="image_toggle" style={{ width: "180px" }}>
           <table className="toggle-content" style={{ width: "180px" }}>
             <tbody>
               {/* FLIP/ROTATE */}
@@ -118,7 +118,7 @@ class ImageMenu extends React.Component {
               >
                 <td className="tickspace"></td>
                 <td className="menu-item-label">Invert Colors</td>
-                <td className="menu-item-shortcut">Ctrl+I</td>
+                <td className="menu-item-shortcut"></td>
               </tr>
 
               <tr className="div-line">
@@ -135,7 +135,7 @@ class ImageMenu extends React.Component {
               >
                 <td className="tickspace"></td>
                 <td className="menu-item-label">Attributes...</td>
-                <td className="menu-item-shortcut">Ctrl+E</td>
+                <td className="menu-item-shortcut"></td>
               </tr>
 
               {/* CLEAR IMAGE */}

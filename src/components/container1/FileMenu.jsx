@@ -84,7 +84,7 @@ class FileMenu extends React.Component {
 
   closeModals = () => {
     this.setState({ 
-      showOpenModal: false, 
+      showOpenModal: false,
       showDeleteModal: false,
       showExportModal: false 
     });
@@ -98,7 +98,7 @@ class FileMenu extends React.Component {
         <div
           className="dropdown"
           id="file_toggle"
-          style={{ width: "200px", left: "0" }}
+          style={{ width: "200px" }}
         >
           <table className="toggle-content" style={{ width: "200px" }}>
             <tbody>
@@ -112,7 +112,11 @@ class FileMenu extends React.Component {
               >
                 <td className="tickspace"></td>
                 <td className="menu-item-label">New</td>
-                <td className="menu-item-shortcut">Ctrl+N</td>
+                <td className="menu-item-shortcut"></td>
+              </tr>
+
+              <tr className="div-line">
+                <td colSpan="3"><hr className="menuhr" /></td>
               </tr>
 
               {/* OPEN */}
@@ -125,7 +129,11 @@ class FileMenu extends React.Component {
               >
                 <td className="tickspace"></td>
                 <td className="menu-item-label">Open</td>
-                <td className="menu-item-shortcut">Ctrl+O</td>
+                <td className="menu-item-shortcut"></td>
+              </tr>
+
+              <tr className="div-line">
+                <td colSpan="3"><hr className="menuhr" /></td>
               </tr>
 
               {/* SAVE */}
@@ -138,7 +146,11 @@ class FileMenu extends React.Component {
               >
                 <td className="tickspace"></td>
                 <td className="menu-item-label">Save</td>
-                <td className="menu-item-shortcut">Ctrl+S</td>
+                <td className="menu-item-shortcut"></td>
+              </tr>
+
+              <tr className="div-line">
+                <td colSpan="3"><hr className="menuhr" /></td>
               </tr>
 
               {/* SAVE AS */}

@@ -3,10 +3,8 @@ import { EraserTool, EraserRenderer } from "../Tools/eraser.js";
 import { BrushTool, BrushRenderer } from "../Tools/brush.js";
 import { LineTool, LineRenderer } from "../Tools/line.js";
 import { RectTool, RectRenderer } from "../Tools/rectangle.js";
-import { RectEllipseTool, RectEllipseRenderer } from "../Tools/rectellipse.js";
 import { EllipseTool, EllipseRenderer } from "../Tools/ellipse.js";
 import { FloodFillTool, FloodFillRenderer } from "../Tools/floodfill.js";
-import { TextTool, TextRenderer } from "../Tools/text.js";
 import { MagnificationTool, MagnificationRenderer } from "../Tools/magnify.js";
 import { InteractionType } from "./Interaction/ToolInteraction";
 
@@ -143,12 +141,6 @@ export const TOOLS = {
     options: {},
   },
 
-  TEXT: {
-    name: "Text",
-    interaction: InteractionType.MODAL,
-    options: {},
-  },
-
   CURVE: {
     name: "Curve",
     interaction: InteractionType.MODAL,
@@ -197,16 +189,6 @@ export function createTool(toolKey, canvas) {
         renderer: new LineRenderer(canvas),
       };
 
-    case "RECTELLIPSE":
-      return {
-        tool: new RectEllipseTool(meta),
-        renderer: new RectEllipseRenderer(canvas),
-      };
-    case "TEXT":
-      return {
-        tool: new TextTool(meta),
-        renderer: new TextRenderer(canvas),
-      };
     case "ELLIPSE":
       return {
         tool: new EllipseTool(meta),
