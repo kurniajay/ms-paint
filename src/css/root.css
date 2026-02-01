@@ -1,0 +1,31 @@
+:root {
+  --main-color: #bbbbbb;
+  --borderlight: rgb(238, 238, 238);
+  --borderdark: rgb(44, 44, 44);
+  --borderlighterdark: rgb(109, 109, 109);
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  touch-action: none;
+  background-color: "black";
+}
+
+.load-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 1000;
+  display: none;
+}
