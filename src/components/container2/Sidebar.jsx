@@ -18,7 +18,6 @@ class Sidebar extends React.Component {
       startMouse: { x: 0, y: 0 },
       startPos: { x: 0, y: 0 },
       position: { x: 0, y: 0 },
-      currTool: 'PENCIL',
       holdTimeout: null,
     };
 
@@ -129,22 +128,6 @@ class Sidebar extends React.Component {
     const key = this.TOOL_SELECTED_KEY[currTool];
     const selected = key ? cfg[key] : undefined;
 
-    // {
-    //   this.TOOLS.map(({ id, tool }) => {
-    //     console.log("BTN", { id, tool, currTool: this.state.currTool });
-    //
-    //     return (
-    //       <button
-    //         key={id}
-    //         id={id}
-    //         className={`tools ${this.props.tool === tool ? "pressed" : ""}`}
-    //         onMouseEnter={this.handleEnter}
-    //         onMouseLeave={this.handleLeave}
-    //         onClick={() => this.props.setTool(tool)}
-    //       />
-    //     );
-    //   });
-    // }
     return (
       <div
         ref={this.sidebarRef}

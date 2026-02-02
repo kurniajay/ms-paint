@@ -32,10 +32,6 @@ class ColorMenu extends React.Component {
     this.setState({ showEditDialog: true });
   };
 
-  closeDialog = () => {
-    this.setState({ showEditDialog: false });
-  };
-
   handleColorChange = (color) => {
     this.setState({ selectedColor: color.hex });
   };

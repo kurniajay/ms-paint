@@ -33,7 +33,6 @@ export class EllipseRenderer {
   }
 
   beginStroke(pos, color, type) {
-    console.log(pos);
     this.start = pos;
     this.color = color;
     this.type = type;
@@ -85,12 +84,6 @@ export class EllipseRenderer {
 
     if (this.type === 1) {
       // Border only
-      ctx.strokeStyle = this.color;
-      ctx.stroke();
-    } else if (this.type === 2) {
-      // Border + filled
-      ctx.fillStyle = this.color;
-      ctx.fill();
       ctx.strokeStyle = this.color;
       ctx.stroke();
     } else if (this.type === 3) {

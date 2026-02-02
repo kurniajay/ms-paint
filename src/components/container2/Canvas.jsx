@@ -3,7 +3,7 @@ import { createCanvasEngine } from "./Engine/canvasEngine";
 import CanvasController from "./Engine/canvasController";
 import { createTool, TOOLS } from "./Engine/toolFactory";
 
-function getPos(e, canvas, zoom = 1) {
+function getPos(e, canvas) {
   const rect = canvas.getBoundingClientRect();
   
   // getBoundingClientRect returns the scaled (transformed) size
@@ -257,8 +257,6 @@ export default class Canvas extends React.Component {
     
     this.controller.setRenderer(renderer);
     this.controller.setTool(tool);
-
-    console.log("Tool switched →", toolKey, TOOLS[toolKey]);
   }
 
   /* ---------- pointer ---------- */

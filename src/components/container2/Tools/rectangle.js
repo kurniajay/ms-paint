@@ -33,7 +33,6 @@ export class RectRenderer {
   }
 
   beginStroke(pos, color, type) {
-    console.log(pos);
     this.start = pos;
     this.color = color;
     this.type = type;
@@ -72,12 +71,6 @@ export class RectRenderer {
       // Border only
       this.ctx.strokeStyle = this.color;
       this.ctx.strokeRect(x, y, w, h);
-    } else if (this.type === 2) {
-      // Border + filled
-      this.ctx.fillStyle = this.color;
-      this.ctx.fillRect(x, y, w, h);
-      this.ctx.strokeStyle = this.color;
-      this.ctx.strokeRect(x, y, w, h);
     } else if (this.type === 3) {
       // Filled only
       this.ctx.fillStyle = this.color;
@@ -104,12 +97,6 @@ export class RectRenderer {
 
     if (this.type === 1) {
       // Border only
-      this.ctx.strokeStyle = this.color;
-      this.ctx.strokeRect(x, y, w, h);
-    } else if (this.type === 2) {
-      // Border + filled
-      this.ctx.fillStyle = this.color;
-      this.ctx.fillRect(x, y, w, h);
       this.ctx.strokeStyle = this.color;
       this.ctx.strokeRect(x, y, w, h);
     } else if (this.type === 3) {

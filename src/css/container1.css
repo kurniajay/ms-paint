@@ -55,7 +55,6 @@
 #file_toggle,
 #edit_toggle,
 #view_toggle,
-#layer_toggle,
 #colors_toggle {
   background-color: var(--main-color);
   position: absolute;
@@ -129,8 +128,6 @@ hr:hover {
 .toggle-content,
 .edit-toggle-content,
 .view-toggle-content,
-.layers-toggle-content,
-.image-toggle-content,
 .colors-toggle-content {
   border-spacing: 0;
   border-collapse: collapse;
@@ -143,7 +140,6 @@ hr:hover {
 #file_toggle td,
 #edit_toggle td,
 #view_toggle td,
-#layers_toggle td,
 #colors_toggle td {
   height: 10px;
 }

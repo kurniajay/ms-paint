@@ -1,3 +1,5 @@
+/* eslint-env node */
+/* global process */
 import mongoose from 'mongoose';
 
 const connectDB = async () => {

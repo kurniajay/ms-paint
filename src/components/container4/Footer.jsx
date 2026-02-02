@@ -14,7 +14,6 @@ class Footer extends React.Component {
   };
 
   updateCoord = (pos) => {
-    // console.log("[Footer] updateCoord called with:", pos);
     if (!this.coordRef.current) return;
     if (!pos || pos.x == null || pos.y == null) {
       this.coordRef.current.textContent = "";
@@ -28,7 +27,6 @@ class Footer extends React.Component {
   };
 
   updateDim = (dim) => {
-    // console.log("[Footer] updateDim called with:", dim);
     if (!this.dimRef.current) return;
 
     const w = dim?.width ?? dim?.WIDTH;
@@ -45,10 +43,6 @@ class Footer extends React.Component {
     if (!this.coordRef.current) return;
     this.coordRef.current.textContent = "";
   };
-
-  componentDidMount() {
-    // console.log("[Footer] mounted", this);
-  }
 
   render() {
     return (

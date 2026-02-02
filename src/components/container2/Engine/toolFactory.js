@@ -1,3 +1,4 @@
+import { InteractionType } from "./Interaction/ToolInteraction";
 import { PencilTool, PencilRenderer } from "../Tools/pencil.js";
 import { EraserTool, EraserRenderer } from "../Tools/eraser.js";
 import { BrushTool, BrushRenderer } from "../Tools/brush.js";
@@ -6,7 +7,6 @@ import { RectTool, RectRenderer } from "../Tools/rectangle.js";
 import { EllipseTool, EllipseRenderer } from "../Tools/ellipse.js";
 import { FloodFillTool, FloodFillRenderer } from "../Tools/floodfill.js";
 import { MagnificationTool, MagnificationRenderer } from "../Tools/magnify.js";
-import { InteractionType } from "./Interaction/ToolInteraction";
 
 export const TOOLS = {
   PENCIL: {
@@ -24,34 +24,6 @@ export const TOOLS = {
         default: 1,
         min: 1,
         max: 6,
-        step: 1,
-      },
-    },
-  },
-
-  CURVELINE: {
-    name: "Curve Line",
-    interaction: InteractionType.STROKE,
-    options: {
-      size: {
-        type: "number",
-        default: 3,
-        min: 1,
-        max: 5,
-        step: 1,
-      },
-    },
-  },
-
-  AIRBRUSH: {
-    name: "Airbrush",
-    interaction: InteractionType.STROKE,
-    options: {
-      size: {
-        type: "number",
-        default: 2,
-        min: 1,
-        max: 3,
         step: 1,
       },
     },
@@ -97,18 +69,6 @@ export const TOOLS = {
     },
   },
 
-  RECTELLIPSE: {
-    name: "Rounded Rectangle",
-    interaction: InteractionType.STROKE,
-    options: {
-      mode: {
-        type: "enum",
-        default: 1,
-        values: [1, 2, 3],
-      },
-    },
-  },
-
   ELLIPSE: {
     name: "Ellipse",
     interaction: InteractionType.STROKE,
@@ -138,12 +98,6 @@ export const TOOLS = {
   FLOOD: {
     name: "Flood Fill",
     interaction: InteractionType.STROKE,
-    options: {},
-  },
-
-  CURVE: {
-    name: "Curve",
-    interaction: InteractionType.MODAL,
     options: {},
   },
 };

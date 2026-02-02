@@ -1,4 +1,3 @@
-import { InteractionType } from "./Interaction/ToolInteraction";
 export default class StrokeController {
   constructor(tool, renderer, engine, getState) {
     this.tool = tool;

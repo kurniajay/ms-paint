@@ -61,15 +61,7 @@ export class MagnificationRenderer {
     }
   }
 
-  captureBase() {
-    // Not needed for CSS zoom approach
-  }
-
   reset() {
     this.applyZoom(1, null);
-  }
-
-  render() {
-    // No-op - zoom is persistent CSS state
   }
 }

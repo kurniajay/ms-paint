@@ -4,15 +4,8 @@ import Sidebar from "./components/container2/Sidebar";
 import Canvas from "./components/container2/Canvas";
 import Pallete from "./components/container3/Pallete";
 import Footer from "./components/container4/Footer";
-// Dialogs reuse existing modal styles; inline rendering below
-
 // API base URL
 const API_URL = "http://localhost:5000/api";
-
-const AppMode = {
-  DRAW: "DRAW",
-  EDIT: "EDIT",
-};
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +16,6 @@ class App extends React.Component {
     this.dialogInputRef = React.createRef();
 
     this.state = {
-      mode: AppMode.DRAW,
       currTool: "PENCIL",
       currColor: "black",
       toolConfig: {
@@ -89,19 +81,15 @@ class App extends React.Component {
 
   footer = {
     coord: (pos) => {
-      // console.log("[App] coord forwarded:", pos, this.footerRef.current);
       this.footerRef.current?.updateCoord(pos);
     },
     dim: (dim) => {
-      // console.log("[App] dim forwarded:", dim, this.footerRef.current);
       this.footerRef.current?.updateDim(dim);
     },
     msg: (text) => {
-      // console.log("[App] msg forwarded:", text, this.footerRef.current);
       this.footerRef.current?.updateMessage(text);
     },
     clearCoord: () => {
-      // console.log("[App] clearCoord forwarded");
       this.footerRef.current?.clearCoord();
     },
   };

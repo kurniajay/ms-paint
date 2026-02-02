@@ -3,9 +3,7 @@ import DropdownContainer from "./DropdownContainer";
 import FileMenu from "./FileMenu";
 import EditMenu from "./EditMenu";
 import ViewMenu from "./ViewMenu";
-import LayerMenu from "./LayerMenu";
 import ColorMenu from "./ColorMenu";
-//import HelpMenu from "./HelpMenu";
 
 class Menubar extends React.Component {
   constructor(props) {
@@ -80,20 +78,10 @@ class Menubar extends React.Component {
             onToggleToolBox={this.props.onToggleToolBox}
             onToggleColorBox={this.props.onToggleColorBox}
             onToggleStatusBar={this.props.onToggleStatusBar}
-            onZoom={this.props.onZoom}
             showToolBox={this.props.showToolBox}
             showColorBox={this.props.showColorBox}
             showStatusBar={this.props.showStatusBar}
-            zoomLevel={this.props.zoomLevel}
-            getImageData={this.props.getImageData}
             closeMenu={this.closeMenu}
-          />
-        );
-      case "layer":
-        return (
-          <LayerMenu
-            setFooter={this.props.setFooter}
-            clearFooter={this.props.clearFooter}
           />
         );
       case "colors":
@@ -105,8 +93,6 @@ class Menubar extends React.Component {
             closeMenu={this.closeMenu}
           />
         );
-      //case "help":
-      // return <HelpMenu />;
       default:
         return null;
     }
